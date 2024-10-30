@@ -4,7 +4,7 @@ on:
   push:
     branches:  ["main"]
   pull_request:
-    branches; ["main"]
+    branches: ["main"]
 
 jobs:
   build:
@@ -31,3 +31,9 @@ jobs:
 
     - name: Executa testes unitários
       run: mvn -B verify
+
+    - name: Análise estática
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=BrunoMBento_vollmed-api
